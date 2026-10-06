@@ -15,9 +15,10 @@ public class CartController : ControllerBase
     private readonly ICartProductService _cartProductService; 
     private readonly IMapper _mapper;
 
-    public CartController(ICartService cartService, IMapper mapper)
+    public CartController(ICartService cartService, ICartProductService cartProductService, IMapper mapper)
     {
         _cartService = cartService;
+        _cartProductService = cartProductService;
         _mapper = mapper;
     }
 

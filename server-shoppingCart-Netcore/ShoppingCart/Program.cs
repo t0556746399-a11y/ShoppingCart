@@ -11,6 +11,14 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// The JWT signing key must come from user-secrets or an environment variable, never from source control
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrWhiteSpace(jwtKey) || jwtKey.Length < 32 || jwtKey.StartsWith("CHANGE_ME"))
+{
+    throw new InvalidOperationException(
+        "Missing JWT key. Run: dotnet user-secrets set \"Jwt:Key\" \"<a random string of 32+ characters>\"");
+}
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -61,6 +69,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 // shopping-cart
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartProductService, CartService>();
 
 // users
 builder.Services.AddScoped<IUserService, UserService>();
@@ -88,7 +97,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidAudience = builder.Configuration["JWT:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
 });
 

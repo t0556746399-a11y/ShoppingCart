@@ -1,4 +1,4 @@
- # 🛒 ShoppingCart
+# 🛒 ShoppingCart
 
 A smart shopping cart application with product search, quantity-based discounts, and a digital receipt at checkout. Managers maintain products, stock, and promotions from an admin dashboard.
 
@@ -64,20 +64,16 @@ dotnet run --project ShoppingCart
 
 The API runs on `https://localhost:7222` and `http://localhost:5090`. Swagger UI is available at `/swagger`.
 
-Set your own values in `ShoppingCart/appsettings.json`:
+Set the JWT signing key as a user-secret (it must be at least 32 characters and is never stored in the repository):
 
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=ShoppingCart;Trusted_Connection=True;MultipleActiveResultSets=true"
-  },
-  "Jwt": {
-    "Issuer": "https://localhost:7222",
-    "Audience": "https://localhost:8080",
-    "Key": "<a long random secret, at least 32 characters>"
-  }
-}
+```bash
+cd ShoppingCart
+dotnet user-secrets set "Jwt:Key" "<a long random string>"
 ```
+
+In Visual Studio you can do the same with right-click on the project, then **Manage User Secrets**. In production, use the environment variable `Jwt__Key`.
+
+The connection string and the JWT issuer and audience are in `ShoppingCart/appsettings.json`.
 
 ### 2. Client
 
@@ -152,3 +148,7 @@ ShoppingCart/
     ├── src/context/             # Cart and auth state
     └── src/services/            # API clients
 ```
+
+## Author
+
+Built by [@t0556746399-a11y](https://github.com/t0556746399-a11y). More projects are on my [GitHub profile](https://github.com/t0556746399-a11y?tab=repositories).

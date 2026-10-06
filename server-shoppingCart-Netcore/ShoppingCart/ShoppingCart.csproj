@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>shoppingcart-3b7f2a6e-5c1d-4e8a-9d20-7a1c4f9b8e11</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
